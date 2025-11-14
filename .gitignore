@@ -1,0 +1,33 @@
+# ---- Python 기본 ----
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyd
+*.so
+*.egg-info/
+*.egg
+
+# ---- 가상환경 ----
+venv/
+.env
+*.env
+.env.*
+
+# ---- Django ----
+db.sqlite3
+/media/
+staticfiles/
+static_root/
+
+# ---- 로그 / 기타 ----
+*.log
+
+# ---- OS/IDE ----
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ---- Docker 빌드 결과 (있다면) ----
+*.pid

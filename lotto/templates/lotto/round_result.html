@@ -1,0 +1,63 @@
+{% extends "lotto/base.html" %}
+{% load lotto_extras %}
+{% block title %}{{ round.round_number }}회차 결과{% endblock %}
+{% block content %}
+<h2>{{ round.round_number }}회차 결과</h2>
+
+{% if round.is_drawn %}
+    <p>
+    당첨 번호:
+    {% for n in round.winning_numbers|split_numbers %}
+        <span class="lotto-ball {{ n|lotto_color }}">{{ n }}</span>
+    {% endfor %}
+    +
+    <span class="lotto-ball bonus">{{ round.bonus_number }}</span>
+    </p>
+{% else %}
+    <p class="text-danger">아직 추첨되지 않은 회차입니다.</p>
+{% endif %}
+
+<h3 class="mt-4">내 티켓</h3>
+{% if tickets %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>번호</th>
+            <th>자동/수동</th>
+            <th>등수</th>
+            <th>상금</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in tickets %}
+            <tr>
+                <td>
+                    {% for n in t.numbers|split_numbers %}
+                        <span class="lotto-ball {{ n|lotto_color }}">{{ n }}</span>
+                    {% endfor %}
+                </td>
+                <td>{{ t.is_auto|yesno:"자동,수동" }}</td>
+                <td>
+                    {% if t.rank and t.rank > 0 %}
+                        {{ t.rank }}등
+                    {% else %}
+                        미당첨
+                    {% endif %}
+                </td>
+                <td>
+                    {% if t.prize and t.prize > 0 %}
+                        {{ t.prize }}원
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="4">구매한 티켓이 없습니다.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>이 회차에 구매한 티켓이 없습니다.</p>
+{% endif %}
+{% endblock %}

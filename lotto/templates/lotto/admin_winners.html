@@ -1,0 +1,57 @@
+{% extends "lotto/base.html" %}
+
+{% block title %}{{ round.round_number }}회차 당첨자{% endblock %}
+
+{% block content %}
+<h2>{{ round.round_number }}회차 당첨자 / 통계</h2>
+
+<p>
+    당첨 번호: {{ round.winning_numbers }}<br>
+    보너스 번호: {{ round.bonus_number }}<br>
+    총 판매 티켓 수: {{ total_tickets }}장
+</p>
+
+<h3 class="mt-3">등수별 당첨자 수</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>등수</th>
+            <th>당첨 티켓 수</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for rank, count in stats.items %}
+            <tr>
+                <td>{{ rank }}등</td>
+                <td>{{ count }}장</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h3 class="mt-3">당첨 티켓 목록</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>유저</th>
+            <th>번호</th>
+            <th>자동/수동</th>
+            <th>등수</th>
+            <th>상금</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in winners %}
+            <tr>
+                <td>{{ t.user.username }}</td>
+                <td>{{ t.numbers }}</td>
+                <td>{% if t.is_auto %}자동{% else %}수동{% endif %}</td>
+                <td>{{ t.rank }}등</td>
+                <td>{{ t.prize }}원</td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="5">당첨 티켓이 없습니다.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

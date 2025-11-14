@@ -1,0 +1,30 @@
+/* 전체 배경 살짝 그라데이션 느낌 */
+body.bg-body {
+    background: radial-gradient(circle at top, #f9fafb 0, #e5e7eb 40%, #d1d5db 100%);
+    min-height: 100vh;
+}
+
+/* 카드 공통 스타일 */
+.card {
+    border-radius: 0.8rem;
+}
+
+/* 버튼들 살짝 둥글게 */
+.btn {
+    border-radius: 999px;
+}
+
+/* 테이블 위아래 여백 */
+.table {
+    background-color: #ffffff;
+}
+
+/* 페이지 타이틀 통일 */
+.page-title {
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+.page-subtitle {
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+}

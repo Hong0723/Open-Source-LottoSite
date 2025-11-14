@@ -1,0 +1,76 @@
+{% extends "lotto/base.html" %}
+{% load lotto_extras %}
+
+{% block title %}구매 내역 | 로또 사이트{% endblock %}
+
+{% block content %}
+<h2 class="page-title">구매 내역</h2>
+<p class="page-subtitle">내가 구매한 로또 티켓과 당첨 결과를 확인할 수 있습니다.</p>
+
+{% if tickets %}
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <table class="table mb-0 align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>회차</th>
+                        <th>번호</th>
+                        <th>방식</th>
+                        <th>구매일</th>
+                        <th>등수</th>
+                        <th>상금</th>
+                        <th>추첨 상태</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in tickets %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'round_result' t.round.round_number %}">
+                                {{ t.round.round_number }}회
+                            </a>
+                        </td>
+                        <td>    {% for n in t.numbers|split_numbers %}
+        <span class="lotto-ball {{ n|lotto_color }}">{{ n }}</span>
+    {% endfor %}</td>
+                        <td>
+                            {% if t.is_auto %}
+                                <span class="badge bg-secondary">자동</span>
+                            {% else %}
+                                <span class="badge bg-info text-dark">수동</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ t.created_at|date:"Y-m-d H:i" }}</td>
+                        <td>
+                            {% if t.rank and t.rank|add:0 > 0 %}
+                                <span class="badge bg-success">{{ t.rank }}등</span>
+                            {% else %}
+                                <span class="text-muted">미당첨</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if t.prize %}
+                                {{ t.prize }}원
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if t.round.is_drawn %}
+                                <span class="badge bg-success">추첨 완료</span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark">추첨 대기</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        아직 구매한 티켓이 없습니다. 상단 메뉴에서 로또를 구매해보세요!
+    </div>
+{% endif %}
+{% endblock %}

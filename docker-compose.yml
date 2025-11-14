@@ -1,0 +1,38 @@
+version: '3.9'
+services:
+  db:
+    image: mysql:8.0
+    container_name: lotto_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: lotto
+      MYSQL_USER: lotto_user
+      MYSQL_PASSWORD: jh882469!@
+      MYSQL_ROOT_PASSWORD: jh882469!@
+    command: [ "--default-authentication-plugin=mysql_native_password" ]
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  web:
+       build: .
+       container_name: lotto_web
+       command: >
+        sh -c "sleep 10 && python manage.py runserver 0.0.0.0:8000"
+
+       volumes:
+         - .:/app
+       ports:
+         - "8000:8000"
+       depends_on:
+         - db
+       environment:
+        - MYSQL_DATABASE=lotto
+        - MYSQL_USER=lotto_user
+        - MYSQL_PASSWORD=jh882469!@
+        - MYSQL_PORT=3306
+        - DEBUG=True
+          
+volumes:
+  db_data:
