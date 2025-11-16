@@ -2,6 +2,7 @@ import random
 from datetime import date
 
 from django.contrib import messages
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -33,6 +34,13 @@ def home(request):
         "round": round_obj,
     }
     return render(request, "lotto/home.html", context)
+
+
+def custom_logout(request):
+    """로그아웃 후 홈페이지로 리다이렉트"""
+    logout(request)
+    messages.success(request, "로그아웃되었습니다.")
+    return redirect("home")
 
 
 # --------------------
